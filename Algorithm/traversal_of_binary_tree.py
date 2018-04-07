@@ -82,13 +82,53 @@ def level_traversal(root):
 
 
 def pre_order(root):
+    pivot = root
+    stack, t = [], []
 
-    pass
+    while pivot is not None or len(stack) != 0:
+        t.append(pivot.val)
+        stack.append(pivot)
+        pivot = pivot.left
+        while pivot is None and len(stack) != 0:
+            pivot = stack.pop()
+            pivot = pivot.right
+
+    return t
 
 
 def in_order(root):
-    pass
+    pivot = root
+    stack, t = [], []
+
+    while pivot is not None or len(stack) != 0:
+        if pivot.left is not None:
+            stack.append(pivot)
+            pivot = pivot.left
+        else:
+            t.append(pivot.val)
+            pivot = pivot.right
+            while pivot is None and len(stack) != 0:
+                pivot = stack.pop()
+                t.append(pivot.val)
+                pivot = pivot.right
+
+    return t
 
 
 def post_order(root):
-    pass
+    stack, t = [root], []
+    cur, pre = None, None
+    while len(stack) != 0:
+        cur = stack[-1]
+        if (cur.left is None and cur.right is None) or \
+           (pre is not None and (cur.left == pre or cur.right == pre)):
+            t.append(cur.val)
+            stack.pop()
+            pre = cur
+        else:
+            if cur.right is not None:
+                stack.append(cur.right)
+            if cur.left is not None:
+                stack.append(cur.left)
+
+    return t
