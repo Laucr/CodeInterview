@@ -132,3 +132,33 @@ def post_order(root):
                 stack.append(cur.left)
 
     return t
+
+
+def binary_tree_constructor(_pre_order, _in_order):
+    if _pre_order is None or _in_order is None:
+        return None
+    return construct_core(_pre_order, _in_order)
+
+
+def construct_core(_pre_order, _in_order):
+    root = BinaryTreeNode(_pre_order[0], None, None)
+    if len(_pre_order) == 1:
+        return root
+    root_index = 0
+    for i in range(len(_in_order)):
+        if _in_order[i] == root.val:
+            root_index = i
+            break
+    if root_index == 0:
+        root.left = None
+        root.right = construct_core(_pre_order[root_index + 1:], _in_order[root_index + 1:])
+
+    elif root_index < len(_in_order) - 1:
+        root.left = construct_core(_pre_order[1:root_index + 1], _in_order[:root_index])
+        root.right = construct_core(_pre_order[root_index + 1:], _in_order[root_index + 1:])
+
+    else:
+        root.left = construct_core(_pre_order[1:], _in_order[root_index + 1:])
+        root.right = None
+
+    return root
