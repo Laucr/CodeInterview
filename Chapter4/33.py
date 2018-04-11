@@ -21,5 +21,6 @@ def is_post_order_traversal(s):
 
     return left and right
 
+
 t = [5, 7, 6, 9, 11, 10, 8]
 print(is_post_order_traversal(t))
